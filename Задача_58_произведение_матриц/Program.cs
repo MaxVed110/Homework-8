@@ -19,25 +19,18 @@ int[,] GenerateMatrix(int rows, int columns, int deviation)
 int[,] CompositionMatrix(int[,] oneMatrix, int[,] twoMatrix)
 {
     int[,] compositionMatrix = new int[oneMatrix.GetLength(0), twoMatrix.GetLength(1)];
-    if (oneMatrix.GetLength(1) == twoMatrix.GetLength(0))
+    int sumCompositionElement = 0;
+    for (int k = 0; k < twoMatrix.GetLength(1); k++)
     {
-        int sumCompositionElement = 0;
-        for (int k = 0; k < twoMatrix.GetLength(1); k++)
+        for (int i = 0; i < twoMatrix.GetLength(0); i++)
         {
-            for (int i = 0; i < twoMatrix.GetLength(0); i++)
+            for (int j = 0; j < oneMatrix.GetLength(1); j++)
             {
-                for (int j = 0; j < oneMatrix.GetLength(1); j++)
-                {
-                    sumCompositionElement += oneMatrix[i, j] * twoMatrix[j, k];
-                }
-                compositionMatrix[i, k] = sumCompositionElement;
-                sumCompositionElement = 0;
+                sumCompositionElement += oneMatrix[i, j] * twoMatrix[j, k];
             }
+            compositionMatrix[i, k] = sumCompositionElement;
+            sumCompositionElement = 0;
         }
-    }
-    else
-    {
-        compositionMatrix = null;
     }
     return compositionMatrix;
 }
@@ -56,7 +49,7 @@ void PrintMatrix(int[,] array)
     Console.WriteLine("--------------------");
 }
 
-/*
+
 Console.WriteLine("Введите размеры первой матрицы и её диапазон: ");
 int oneRowsUser = Convert.ToInt32(Console.ReadLine());
 int oneColumnsUser = Convert.ToInt32(Console.ReadLine());
@@ -66,20 +59,21 @@ Console.WriteLine("Введите размеры второй матрицы и 
 int twoRowsUser = Convert.ToInt32(Console.ReadLine());
 int twoColumnsUser = Convert.ToInt32(Console.ReadLine());
 int twoDeviationUser = Convert.ToInt32(Console.ReadLine());
-*/
 
-int[,] oneMatrixUser = GenerateMatrix(3, 3, 5);
-int[,] twoMatrixUser = GenerateMatrix(3, 2, 5);
 
-int[,] compositionUserMatrix = CompositionMatrix(oneMatrixUser, twoMatrixUser);
+int[,] oneMatrixUser = GenerateMatrix(oneRowsUser, oneColumnsUser, oneDeviationUser);
+int[,] twoMatrixUser = GenerateMatrix(twoRowsUser, twoColumnsUser, twoDeviationUser);
+
 
 Console.WriteLine("Первая матрица: ");
 PrintMatrix(oneMatrixUser);
 Console.WriteLine("Вторая матрица: ");
 PrintMatrix(twoMatrixUser);
 
-if (compositionUserMatrix != null)
+
+if (oneMatrixUser.GetLength(1) == twoMatrixUser.GetLength(0))
 {
+    int[,] compositionUserMatrix = CompositionMatrix(oneMatrixUser, twoMatrixUser);
     Console.WriteLine("Произведение матриц: ");
     PrintMatrix(compositionUserMatrix);
 }
